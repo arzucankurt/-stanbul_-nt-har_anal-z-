@@ -1,5 +1,5 @@
 # Bu dosya veri setini olusturur.
-# 4 adet TÜİK Excel dosyasi -> 1 adet CSV (sadece İstanbul, 2009-2025).
+# 5 adet TÜİK Excel dosyasi -> 1 adet CSV (sadece İstanbul, 2009-2025).
 # Calistirmak icin: python veri_olustur.py
 # (Excel dosyalari bu dosyayla ayni klasorde olmali.)
 
@@ -71,6 +71,12 @@ yas = istanbul_oku(
      "50_54", "55_59", "60_64", "65_69", "70_74", "75_ustu", "bilinmeyen"],
     "yas_",
 )
+neden = istanbul_oku(
+    "il_ve_nedene_gore_intiharlar.xlsx",
+    ["hastalik", "aile_gecimsizligi", "gecim_zorlugu", "ticari_basarisizlik",
+     "hissi_iliski", "ogrenim_basarisizligi", "diger", "bilinmeyen"],
+    "neden_",
+)
 sekil = istanbul_oku(
     "il_ve_sekle_gore_intiharlar.xlsx",
     ["asarak", "kimyevi_madde", "yuksekten_atlayarak", "suya_atlayarak", "atesli_silah",
@@ -80,7 +86,7 @@ sekil = istanbul_oku(
 
 # --- 4) Hepsini "yil" sutununa gore birlestir ------------------------------
 veri = cinsiyet.merge(hiz, on="yil")
-for parca in [yas, sekil]:
+for parca in [yas, neden, sekil]:
     veri = veri.merge(parca, on="yil")
 
 veri = veri[(veri["yil"] >= ILK_YIL) & (veri["yil"] <= SON_YIL)]
